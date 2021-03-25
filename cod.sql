@@ -1,4 +1,5 @@
 -- João Marcos Neves da Silva
+-- Git: https://github.com/JOaOMARcosNs/Loja-de-calcados 
 -- OBS: todas as datas do meu sistema usa a data atual, entao todas as vezes que roda o banco ele pegar as datas atuais
 CREATE TABLE funcionario (
 	idFuncionario serial NOT NULL PRIMARY KEY,
@@ -107,7 +108,7 @@ CREATE TABLE fornecedor (
 );
 CREATE TABLE enderecoFornecedor (
 	idEndereco serial NOT NULL PRIMARY KEY,
-	idfornecedor INT,
+	idfornecedor INT NOT NULL,
 	cep VARCHAR ( 10 ),
 	logradouro VARCHAR ( 255 ),
 	numero INT,
@@ -119,7 +120,7 @@ CREATE TABLE enderecoFornecedor (
 );
 CREATE TABLE contatosFornecedor (
 	idContatos serial NOT NULL PRIMARY KEY,
-	idFornecedor INT,
+	idFornecedor INT NOT NULL,
 	telefone VARCHAR ( 16 ),
 	eMail VARCHAR ( 255 ),
 	whatsapp VARCHAR ( 16 ),
@@ -128,8 +129,8 @@ CREATE TABLE contatosFornecedor (
 --------------------------------------------------------------------
 CREATE TABLE compra (
 	idCompra serial NOT NULL PRIMARY KEY,
-	idFonecedor INT,
-	idGerente INT,
+	idFonecedor INT NOT NULL,
+	idGerente INT NOT NULL,
 	dataCompra DATE,
 	valorTotalNota NUMERIC ( 10, 2 ) DEFAULT 0,
 	FOREIGN KEY ( idFonecedor ) REFERENCES fornecedor ( idFornecedor ),
@@ -141,9 +142,9 @@ CREATE TABLE genero ( idGenero serial NOT NULL PRIMARY KEY, Genero VARCHAR ( 60 
 CREATE TABLE calcados (
 	idCalcados serial NOT NULL PRIMARY KEY,
 	nomeCalcado VARCHAR ( 70 ),
-	idTipo INT,
-	idMarca INT,
-	idGenero INT,
+	idTipo INT NOT NULL,
+	idMarca INT NOT NULL,
+	idGenero INT NOT NULL,
 	corPredominante VARCHAR ( 20 ),
 	numeracao INT DEFAULT 0,
 	icms NUMERIC ( 7, 2 ) DEFAULT 0,
@@ -159,8 +160,8 @@ CREATE TABLE calcados (
 );
 CREATE TABLE itensCompra (
 	idItensCompra serial NOT NULL PRIMARY KEY,
-	idCompra INT,
-	idCalcados INT,
+	idCompra INT NOT NULL,
+	idCalcados INT NOT NULL,
 	numeracao INT DEFAULT 0,
 	precoCompra NUMERIC ( 7, 2 ) DEFAULT 0,
 	icms NUMERIC ( 7, 2 ) DEFAULT 0,
@@ -173,9 +174,9 @@ CREATE TABLE itensCompra (
 CREATE TABLE formapagamento ( idFormapagamento serial NOT NULL PRIMARY KEY, formapagamento VARCHAR ( 10 ) );
 CREATE TABLE venda (
 	idVenda serial NOT NULL PRIMARY KEY,
-	idFuncionario INT,
-	idClientePf INT,
-	idFormapagamento INT,
+	idFuncionario INT NOT NULL,
+	idClientePf INT NOT NULL,
+	idFormapagamento INT NOT NULL,
 	valorTotal NUMERIC ( 7, 2 ) DEFAULT 0,
 	dataVenda DATE,
 	valorVenda NUMERIC ( 7, 2 ) DEFAULT 0,
@@ -190,8 +191,8 @@ CREATE TABLE venda (
 );
 CREATE TABLE itensVenda (
 	idItensVenda serial NOT NULL PRIMARY KEY,
-	idVenda INT,
-	idCalcados INT,
+	idVenda INT NOT NULL,
+	idCalcados INT NOT NULL,
 	quantidade INT,
 	desconto NUMERIC ( 7, 2 ) DEFAULT 1,
 	FOREIGN KEY ( idVenda ) REFERENCES venda ( idVenda ),
@@ -199,7 +200,7 @@ CREATE TABLE itensVenda (
 );
 CREATE TABLE parcelas (
 	idParcelas serial NOT NULL PRIMARY KEY,
-	idVenda INT,
+	idVenda INT NOT NULL,
 	valorParcela NUMERIC ( 7, 2 ) DEFAULT 0,
 	numeroParcelas INT DEFAULT 0,
 	status CHAR ( 2 ),
@@ -209,8 +210,8 @@ CREATE TABLE parcelas (
 );
 CREATE TABLE itensDevolucao (
 	idItensDevolucao serial NOT NULL PRIMARY KEY,
-	idItensVenda INT,
-	idCalcados INT,
+	idItensVenda INT NOT NULL,
+	idCalcados INT NOT NULL,
 	motivo VARCHAR ( 200 ),
 	quantidadeDevolucao INT,
 	dataDevolucao DATE,
